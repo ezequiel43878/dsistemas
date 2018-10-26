@@ -1,8 +1,24 @@
 {% extends  'base.html' %}
 
-
-{% block contenido %}
+		 	
+{%block contenido %}
 	
-	
+		{% for x in range(15) %}
+		 	<div class="col-lg-4 col-md-6 mb-4">
+              <div class="card h-40">
+                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                <div class="card-body">
+                  <h4 class="card-title">
+                    <a href="#">Titulo</a>
+                  </h4>
+                  <h5>Fecha de publicacion</h5>
+                  <p class="card-text">Despricion</p>
+                </div>
+                <div class="card-footer">
+                  <a href="#" class="btn btn-success"> Contactar </a>
+                </div>
+              </div>
+            </div>
+         {% endfor %}
 
-{% endblock %}
+{%endblock%}
