@@ -1,0 +1,64 @@
+{% extends  'base.html' %}
+
+{%block contenido %}
+<div class="row">
+	<div class="col-lg-4"></div>
+
+  <div class="col-lg-4">
+  		<h1 class="my-4" align="center">Mis datos</h1>
+         <form method="post" enctype=multipart/form-data>
+		  <div class="form-group">
+		    <label>Nombre: </label>
+		    {% if registro.nombre  == None%}
+		    <input type="text" class="form-control" name="nombre">
+		    {% else %}
+		    <input type="text" class="form-control" name="nombre" value={{registro.nombre}}>
+		    {% endif %}
+		  </div>
+
+		  <div class="form-group">
+		    <label>Apellido: </label>
+		    {% if registro.apellido  == None%}
+		    <input type="text" class="form-control"  name="apellido">
+		    {% else %}
+		    <input type="text" class="form-control"  name="apellido" value={{registro.apellido}}>
+		    {% endif %}
+		  </div>
+
+		  <div class="form-group">
+		    <label>Telefono: </label>
+		    {% if registro.telefono  == None%}
+		    <input type="text" class="form-control"  name="telefono" placeholder="11 55554444">
+		    {% else %}
+		    <input type="text" class="form-control"  name="telefono" value={{registro.telefono}}>
+		    {% endif %}
+		  </div>
+
+		  <div class="form-group">
+		  <label for="sel1">Barrio: </label>
+		  <select class="form-control" name="barrio">
+		  	<option value={{b2.id_barrio}}>{{b2.nombre_barrio}}</option>
+		    {% for x in barrios %}
+		    <option value={{x.id_barrio}}> {{x.nombre_barrio}}</option>
+		    {% endfor %}
+		  </select>
+		  </div>
+
+		  <div class="form-group">
+		    <label>Foto de Perfil: </label>
+		    <input type="file" class="form-control" name='imagen'>
+		  </div>
+
+		  <button type="submit" class="btn btn-success">Guardar</button>
+
+		</form>
+
+    </div>
+
+     <div class="col-lg-4"></div>
+
+   </div>
+   <br>
+
+{%endblock%}
+

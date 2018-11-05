@@ -19,11 +19,11 @@ class Persona(Base):
 	__tablename__ = 'persona'
 
 	id_persona = Column(Integer,primary_key=True,autoincrement=True)
-	nombre = Column(String(25),nullable=False)
-	apellido = Column(String(25),nullable=False)
-	telefono = Column(String(30), nullable=False)
+	nombre = Column(String(25),nullable=True)
+	apellido = Column(String(25),nullable=True)
+	telefono = Column(String(30), nullable=True)
 	email = Column(String(40),nullable=False)
-	foto = Column(String(40),nullable=False)
+	foto = Column(String(40),nullable=True)
 	pw = Column(String(250), nullable=False)
 	id_barrio = Column(Integer,ForeignKey('barrio.id_barrio'),nullable=False)
 
