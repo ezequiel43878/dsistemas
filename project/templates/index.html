@@ -22,7 +22,7 @@
            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
           </div>
             <div class="container">
-            	<h1 class="my-4" align="center">Titulo</h1>
+            	<h1 class="my-4" align="center">Mascotas en Adopcion</h1>
          
           <div class="row">
 		            {% for blog in blogs %}
@@ -30,12 +30,10 @@
 		              <div class="card h-40">
 		                <a href="#"><img class="card-img-top" src="{{ url_for('static', filename='imagenes/' + blog.foto ) }}" alt="" width="150" height="150"></a>
 		                <div class="card-body">
-		                  <h4 class="card-title">
-		                    <a href="#">{{blog.titulo }}</a>
-		                  </h4>
-		                  <h5>{{ blog.fecha_publicacion }}</h5>
-		                  <h>{{ blog.tipo_animal }}</h5>
-		                  <p class="card-text">{{ blog.comentario }}</p>
+		                  <h4 class="card-title"> {{blog.titulo }}</h4>
+		                  <p>Fecha: {{ blog.fecha_publicacion }}</p>
+		                  <h>Mascota: {{ blog.tipo_animal.upper() }}</h5>
+		                  <p class="card-text">Comentario: {{ blog.comentario }}</p>
 		                </div>
 		                <div class="card-footer">
 		                  <a href="/blog/contacto/{{blog.id_persona}}" class="btn btn-success"> Contactar </a>

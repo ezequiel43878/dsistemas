@@ -201,5 +201,13 @@ def visualizar_contanto(id):
 	else:
 		return render_template('contacto.html',barrio_contacto =  barrio_contacto, datos_contacto=datos_contacto )
 
-
 # --------- Mis blogs -------
+@app.route('/blogs',methods=['POST','GET'])
+def mis_blogs():
+	if 'username' in login_session:
+		registro = session.query(Persona).filter_by(email = login_session['username']).one()
+		blogs = session.query(Blog).filter_by(id_persona = registro.id_persona).all()
+		return render_template ('mis_blogs.html',username = login_session['username'],blogs=blogs)
+
+	else:
+		return redirect(url_for('index'))

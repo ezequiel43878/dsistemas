@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Nombrede App</title>
+    <title>Adopcion de Mascotas</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css' ) }}" rel="stylesheet">
@@ -27,7 +27,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="/"><i class="fa fa-paw" style="font-size:36px;color:white"></i> NombreApp</a>
+        <a class="navbar-brand" href="/"><i class="fa fa-paw" style="font-size:36px;color:white"></i> MascotasApp</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -53,7 +53,7 @@
                 </p>
                 	<p class="text-muted" style="font-size:13px" align="center"> {{ username}} </p>
                   <a class="dropdown-item" href="/agregar_mascota"> <i class=" fa fa-paw"></i> Agregar Blog</a>
-                  <a class="dropdown-item" href="#"> <i class="	fa fa-bars"></i> Mis Blogs</a>
+                  <a class="dropdown-item" href="/blogs"> <i class="	fa fa-bars"></i> Mis Blogs</a>
                   <a class="dropdown-item" href="/edit_user"> <i class="fa fa-cogs"></i> Editar Cuenta</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="/logout"><i class="fa fa-sign-out"></i> Salir</a>

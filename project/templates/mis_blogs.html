@@ -1,1 +1,38 @@
 {% extends 'base.html' %}
+
+{% block contenido %}
+<br>
+
+<div class="row">
+	<div class="col-lg-2"></div>
+	<div class="col-lg-8">
+				<h2 align="center">Mis sadsada</h2>
+				<br>
+				 <div class="row">
+						            {% for blog in blogs %}
+								 	<div class="col-lg-4 col-md-6 mb-4">
+						              <div class="card h-40">
+						                <a href="#"><img class="card-img-top" src="{{ url_for('static', filename='imagenes/' + blog.foto ) }}" alt="" width="150" height="150"></a>
+						                  <div class="card-body">
+							                  <h4 class="card-title"> {{blog.titulo }}</h4>
+							                  <p>Fecha: {{ blog.fecha_publicacion }}</p>
+							                  <h>Mascota: {{ blog.tipo_animal.upper() }}</h5>
+							                  <p class="card-text">Comentario: {{ blog.comentario }}</p>
+					                	  </div>
+						                <div class="card-footer">
+						                  <a href="/blog/contacto/{{blog.id_persona}}" class="btn btn-info"> Editar </a> &nbsp;
+						                  <a href="/blog/contacto/{{blog.id_persona}}" class="btn btn-danger"> Eliminar </a>
+						                </div>
+
+						              </div>
+						            </div>
+						         {% endfor %}
+
+
+				 </div>
+	</div>
+ 	<div class="col-lg-2"></div>
+ </div>
+
+
+{% endblock %}
