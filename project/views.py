@@ -5,12 +5,13 @@ from flask import render_template, request, redirect, url_for
 from flask import session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from project.database_setup import Base, Persona, Barrio
+from project.database_setup import Base, Persona, Barrio, Blog
 import hashlib
 import random
 import string
 from werkzeug.utils import secure_filename
 import os
+import time
 
 # Carpeta donde se guardan las imagenes
 
@@ -146,7 +147,59 @@ def edit_user():
 # --------- Index -------
 @app.route ('/',methods=['POST','GET'])
 def index():
+	blogs = session.query(Blog).all()
 	if 'username' in login_session:
-		return render_template('index.html',username = login_session['username'], foto_perfil= login_session['foto_perfil'])
+		return render_template('index.html',username = login_session['username'], foto_perfil= login_session['foto_perfil'],blogs=blogs)
 	else:
-		return render_template('index.html')
+		return render_template('index.html',blogs=blogs)
+
+
+# --------- Agregar post -----
+@app.route ('/agregar_mascota',methods=['POST','GET'])
+def agregar_mascota():
+	if 'username' in login_session:
+
+		if request.method == 'GET':	
+			return render_template('agregar_mascota.html',username = login_session['username'])
+
+		else:
+
+			nuevo_blog = Blog()
+			registro = session.query(Persona).filter_by(email = login_session['username']).one()
+			if 'foto_mascota' in request.files:
+				file = request.files['foto_mascota']
+				if file and allowed_file(file.filename):
+					filename = secure_filename(file.filename)
+					file.save(os.path.join(UPLOAD_FOLDER, filename))
+					nuevo_blog.foto = filename
+
+			nuevo_blog.titulo = request.form['titulo']
+			nuevo_blog.tipo_animal = request.form['categoria']
+			nuevo_blog.comentario = request.form['comentario']
+			nuevo_blog.fecha_publicacion = time.strftime("%d/%m/%y")
+			nuevo_blog.id_persona = registro.id_persona
+
+			session.add(nuevo_blog)
+			session.commit()
+			
+
+			return redirect(url_for('index'))
+
+	else:
+		return redirect(url_for('index'))
+
+
+
+# ----------- Ver contacto --------
+@app.route('/blog/contacto/<int:id>',methods=['POST','GET'])
+def visualizar_contanto(id):
+	ads = id
+	datos_contacto = session.query(Persona).filter_by(id_persona = id).one()
+	barrio_contacto = session.query(Barrio).join(Persona).filter_by(id_persona = id).one()
+	if 'username' in login_session:
+		return render_template('contacto.html',barrio_contacto =  barrio_contacto, datos_contacto=datos_contacto,username = login_session['username'])
+	else:
+		return render_template('contacto.html',barrio_contacto =  barrio_contacto, datos_contacto=datos_contacto )
+
+
+# --------- Mis blogs -------

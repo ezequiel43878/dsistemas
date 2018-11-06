@@ -1,0 +1,36 @@
+{% extends  'base.html' %}
+
+
+{% block contenido%}
+	<br>
+	<div class="row">
+		<div class="col-lg-4"></div>
+
+			<div class="col-lg-4">
+				<h2 >Datos del contacto</h2>
+				<br>
+				<div class="card h-40" style="width: 18rem;">
+				  <img class="card-img-top" src="{{ url_for('static', filename='imagenes/' + datos_contacto.foto ) }}" width="200" height="200">
+
+				  <div class="card-body">
+				    <h5 class="card-title" align="center"><strong> {{datos_contacto.nombre}} {{datos_contacto.apellido}}</strong> </h5>
+				    <br>
+				    <p class="card-text"><strong>Tel:</strong> {{datos_contacto.telefono}}</p>
+				  </div>
+
+				  <ul class="list-group list-group-flush">
+				    <li class="list-group-item"><strong>Barrio:</strong> {{ barrio_contacto.nombre_barrio }}</li>
+				    <li class="list-group-item"><strong>Email:</strong> {{datos_contacto.email}}</li>
+				  </ul>
+
+				  <div class="card-body">
+				  	<a class="btn btn-success" href="/">Volver</a>
+				    
+				  </div>
+				</div>
+			</div>
+		<div class="col-lg-4"></div>	
+   </div>
+	<br>
+	<br>
+{% endblock %}
