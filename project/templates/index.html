@@ -31,9 +31,9 @@
 		                <a href="#"><img class="card-img-top" src="{{ url_for('static', filename='imagenes/' + blog.foto ) }}" alt="" width="150" height="150"></a>
 		                <div class="card-body">
 		                  <h4 class="card-title"> {{blog.titulo }}</h4>
-		                  <p>Fecha: {{ blog.fecha_publicacion }}</p>
-		                  <h>Mascota: {{ blog.tipo_animal.upper() }}</h5>
-		                  <p class="card-text">Comentario: {{ blog.comentario }}</p>
+		                  <p><strong>Fecha:</strong> {{ blog.fecha_publicacion }}</p>
+		                  <h><strong>Mascota:</strong> {{ blog.tipo_animal.upper() }}</h5>
+		                  <p class="card-text"><strong>Comentario:</strong> {{ blog.comentario }}</p>
 		                </div>
 		                <div class="card-footer">
 		                  <a href="/blog/contacto/{{blog.id_persona}}" class="btn btn-success"> Contactar </a>
