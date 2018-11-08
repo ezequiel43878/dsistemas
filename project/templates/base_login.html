@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="../static/css/login.css">
+</head>
+<body>
+
+	<div class="div-login">
+
+		<img src="../static/imagenes/icono.jpg" class="icono-login">
+		
+				{% for message in get_flashed_messages() %}
+              <h5>  {{ message }} </h5>
+		        {% endfor %}
+
+		  {% block contenido%}
+		  {% endblock%}
+
+	</div>	
+
+</body>
+</html>

@@ -1,29 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-	<form method="post">
-		<table>
-			<tr>
-				<td>Email</td>
-				<td><input type="input" name="email"></td>
-			</tr>
-			<tr>
-				<td>Contraseña</td>
-				<td><input type="password" name="pass"></td>
-			</tr>
+{% extends 'base_login.html'%}
 
-			<tr>
-				<td>Repetir Contraseña</td>
-				<td><input type="password" name="pass2"></td>
-			</tr>
-
-			<tr>
-				<td><input type="submit" name=""></td>
-			</tr>
-		</table>
-	</form>
-</body>
-</html>
+	{%block contenido%}
+		<h1>Registrarme</h1>
+		<form method="post">
+					<label>Correo Electronico:</label>
+					<input type="text" name="email"></td>
+					<label>Constraseña:</label>
+					<input type="password" name="pass">
+					<label>Repetir Contraseña:</label>
+					<input type="password" name="pass2">
+					<input type="submit" value="Enviar">
+		</form>
+		<a href="/">Inicio</a>
+	{%endblock%}

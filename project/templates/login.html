@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Login</title>
-</head>
-<body>
-	<form method="post">
-		<table>
-			<tr>
-				<td>Email</td>
-				<td><input type="input" name="email"></td>
-			</tr>
-			<tr>
-				<td>Constraseña</td>
-				<td><input type="password" name="pass"></td>
-			</tr>
-			<tr>
-				<td><input type="submit" name=""></td>
-			</tr>
-		</table>
-	</form>
-</body>
-</html>
+{% extends 'base_login.html'%}
+
+	{%block contenido%}
+
+
+		<h1>Iniciar Sesi&#243;n</h1>
+		<form method="post">
+					<label>Correo Electronico:</label>
+					<input type="text" name="email">
+					<label>Constraseña:</label>
+					<input type="password" name="pass">
+					<input type="submit" value="Ingresar">
+		</form>
+		<a href="/registrar">Registrarme</a><br>
+		<a href="/">Inicio</a>
+	{%endblock%}

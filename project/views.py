@@ -1,7 +1,7 @@
 #Archivo .py con el enrutamiento de la aplicacion..
 
 from . import app
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from flask import session as login_session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -61,6 +61,9 @@ def registar():
 				pw2 = request.form['pass2']
 				registro = session.query(Persona).all()
 				existe_email = False
+				if email == '':
+					flash("Ingrese un email")
+					return redirect(url_for('registar'))
 				if pw == pw2:
 					for x in registro:
 						if x.email == email:
@@ -74,15 +77,18 @@ def registar():
 							id_barrio = 1,
 							foto = 'sin_foto.png'
 							)
-						print (email)
 						session.add(nuevo_usuario)
 						session.commit()
 						login_session['username'] = email
+
 						return redirect(url_for('edit_user'))
 					else:
-						return 'Ya existe un Registro con ese email'
+						flash("Ya existe un usuario con ese email")
+						return redirect(url_for('registar'))
 				else:
-					return 'contraseña no son iguales'
+					flash("Las contraseñas son diferentes")
+					return redirect(url_for('registar'))
+					
 	else:
 		return redirect(url_for('index'))
 
@@ -105,7 +111,8 @@ def login():
 							login_session['foto_perfil'] = x.foto
 							print('datos correctos')
 							return redirect(url_for('index'))
-				return 'datos incorrectos'
+				flash("Datos Incorrectos")
+				return redirect(url_for('login'))
 	else:
 		return redirect(url_for('index'))
 
@@ -126,7 +133,7 @@ def edit_user():
 		if request.method == 'GET':			
 			barrios = session.query(Barrio).all()
 			barrio_del_usuario = session.query(Barrio).join(Persona).filter_by(email = email).one()
-			return render_template('edit_user.html',username = login_session['username'],registro = registro,barrios = barrios,b2 = barrio_del_usuario )
+			return render_template('edit_user.html',username = login_session['username'],registro = registro,barrios = barrios,b2 = barrio_del_usuario,foto_perfil= login_session['foto_perfil'] )
 		else:
 			if 'imagen' in request.files:
 				file = request.files['imagen']
@@ -160,7 +167,7 @@ def agregar_mascota():
 	if 'username' in login_session:
 
 		if request.method == 'GET':	
-			return render_template('agregar_mascota.html',username = login_session['username'])
+			return render_template('agregar_mascota.html',username = login_session['username'],foto_perfil= login_session['foto_perfil'])
 
 		else:
 
@@ -197,7 +204,7 @@ def visualizar_contanto(id):
 	datos_contacto = session.query(Persona).filter_by(id_persona = id).one()
 	barrio_contacto = session.query(Barrio).join(Persona).filter_by(id_persona = id).one()
 	if 'username' in login_session:
-		return render_template('contacto.html',barrio_contacto =  barrio_contacto, datos_contacto=datos_contacto,username = login_session['username'])
+		return render_template('contacto.html',barrio_contacto =  barrio_contacto, datos_contacto=datos_contacto,username = login_session['username'],foto_perfil= login_session['foto_perfil'])
 	else:
 		return render_template('contacto.html',barrio_contacto =  barrio_contacto, datos_contacto=datos_contacto )
 
@@ -207,7 +214,57 @@ def mis_blogs():
 	if 'username' in login_session:
 		registro = session.query(Persona).filter_by(email = login_session['username']).one()
 		blogs = session.query(Blog).filter_by(id_persona = registro.id_persona).all()
-		return render_template ('mis_blogs.html',username = login_session['username'],blogs=blogs)
+		return render_template ('mis_blogs.html',username = login_session['username'],blogs=blogs,foto_perfil= login_session['foto_perfil'])
 
 	else:
 		return redirect(url_for('index'))
+
+
+# -------- Editar blog ---------
+@app.route('/blog/editar/<int:id_blog>',methods=['POST','GET'])
+def editar_blog(id_blog):
+	if 'username' in login_session:
+		blog = session.query(Blog).filter_by(id_blog = id_blog).one()
+
+		if request.method == 'GET':
+			return render_template('edit_blog.html',blog=blog,username = login_session['username'],foto_perfil= login_session['foto_perfil'])
+		else:
+			if 'foto_mascota' in request.files:
+				file = request.files['foto_mascota']
+				if file and allowed_file(file.filename):
+					filename = secure_filename(file.filename)
+					file.save(os.path.join(UPLOAD_FOLDER, filename))
+					blog.foto = filename
+			blog.titulo = request.form['titulo']
+			blog.tipo_animal = request.form['categoria']
+			blog.comentario = request.form['comentario']
+
+			session.add(blog)
+			session.commit()
+			return redirect(url_for('index'))
+	else:
+		return redirect(url_for('index'))
+
+
+#----------- Eliminar Blogs -------
+@app.route('/blog/eliminar/<int:id_blog>',methods=['POST','GET'])
+def eliminar_blog(id_blog):
+	if 'username' in login_session:
+		id_blog = id_blog
+		blog = session.query(Blog).filter_by(id_blog = id_blog).one()
+		session.delete(blog)
+		session.commit()
+		return redirect(url_for('index'))
+	else:
+		return redirect(url_for('index'))
+
+@app.route('/blog/categoria/<tipo_categoria>',methods=['POST','GET'])
+def categoria(tipo_categoria):
+
+	blogs = session.query(Blog).filter_by(tipo_animal=tipo_categoria).all()
+	if 'username' in login_session:
+		return render_template('index.html',username = login_session['username'], foto_perfil= login_session['foto_perfil'],blogs=blogs)
+	else:
+		return render_template('index.html',blogs=blogs)
+
+
